@@ -1,0 +1,5 @@
+drm/*/*
+!drm/*/Makefile
+
+drm2/*/*
+!drm2/*/Makefile
