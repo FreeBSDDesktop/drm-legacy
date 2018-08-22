@@ -14,4 +14,6 @@ SUBDIR = \
 	${_i915kms} \
 	${_radeonkms} \
 
+CFLAGS+=	-I${.CURDIR:H}/src/
+
 .include <bsd.subdir.mk>
