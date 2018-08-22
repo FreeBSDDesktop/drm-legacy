@@ -10,6 +10,4 @@ SUBDIR = \
 	tdfx \
 	via
 
-CFLAGS+=	-I${.CURDIR:H}/src/
-
 .include <bsd.subdir.mk>
