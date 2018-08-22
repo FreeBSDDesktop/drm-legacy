@@ -62,6 +62,8 @@ SRCS	+=								\
 
 .include <bsd.kmod.mk>
 
+CFLAGS+= -I${.CURDIR:H}/../src/
+
 CWARNFLAGS.i915_debug.c=	-Wno-unused-function
 CWARNFLAGS.intel_lvds.c=	-Wno-unused
 CWARNFLAGS.intel_tv.c=		-Wno-unused

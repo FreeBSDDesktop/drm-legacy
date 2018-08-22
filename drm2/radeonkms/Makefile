@@ -115,7 +115,9 @@ SRCS	+=								\
 
 .include <bsd.kmod.mk>
 
-CFLAGS+=			-I${SRCTOP}/sys/dev/drm2/radeon
+CFLAGS+= -I${.CURDIR:H}/../src/
+
+CFLAGS+=			-I${SRCTOP}/../src/dev/drm2/radeon
 
 CWARNFLAGS.radeon_cp.c=		-Wno-unused-value
 CWARNFLAGS.r600_cp.c=		-Wno-unused-value

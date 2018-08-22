@@ -62,4 +62,6 @@ SRCS	+=device_if.h bus_if.h pci_if.h device_if.h iicbus_if.h opt_drm.h \
 CWARNFLAGS+=-Wno-cast-qual
 .endif
 
+CFLAGS+= -I${.CURDIR:H}/../src/
+
 .include <bsd.kmod.mk>
