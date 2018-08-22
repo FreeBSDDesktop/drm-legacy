@@ -1,6 +1,6 @@
 # $FreeBSD$
 
-.PATH:	${.CURDIR:H:H}/src/drm
+.PATH:	${.CURDIR:H:H}/src/dev/drm
 
 KMOD= 	sis
 SRCS=	sis_drv.c sis_ds.c sis_mm.c

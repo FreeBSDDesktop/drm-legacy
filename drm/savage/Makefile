@@ -1,6 +1,6 @@
 # $FreeBSD$
 
-.PATH:	${.CURDIR:H:H}/src/drm
+.PATH:	${.CURDIR:H:H}/src/dev/drm
 
 KMOD= 	savage
 CFLAGS += -I${SRCTOP}/sys/dev/drm

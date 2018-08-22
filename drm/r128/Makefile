@@ -1,6 +1,6 @@
 # $FreeBSD$
 
-.PATH:	${.CURDIR:H:H}/src/drm
+.PATH:	${.CURDIR:H:H}/src/dev/drm
 
 KMOD	= r128
 SRCS	= r128_cce.c r128_drv.c r128_irq.c r128_state.c

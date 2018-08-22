@@ -1,6 +1,6 @@
 # $FreeBSD$
 
-SRCDIR=	${.CURDIR:H:H}/src/drm2
+SRCDIR=	${.CURDIR:H:H}/src/dev/drm2
 
 .PATH:	${SRCDIR}/i915
 KMOD	= i915kms

@@ -1,6 +1,6 @@
 # $FreeBSD$
 
-.PATH:	${.CURDIR:H:H}/src/drm
+.PATH:	${.CURDIR:H:H}/src/dev/drm
 
 KMOD	= mach64
 SRCS	= mach64_dma.c mach64_drv.c mach64_irq.c mach64_state.c
