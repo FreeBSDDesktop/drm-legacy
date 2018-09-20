@@ -41,6 +41,7 @@ __FBSDID("$FreeBSD$");
 #include <dev/drm2/radeon/radeon_drm.h>
 #include "radeon_drv.h"
 #include "r300_reg.h"
+#include "firmware.h"
 
 #define RADEON_FIFO_DEBUG	0
 
@@ -478,6 +479,7 @@ static void radeon_init_pipes(struct drm_device *dev)
 /* Load the microcode for the CP */
 static int radeon_cp_init_microcode(drm_radeon_private_t *dev_priv)
 {
+	struct drm_device *drm_dev;
 	const char *fw_name = NULL;
 	int err;
 
@@ -528,7 +530,8 @@ static int radeon_cp_init_microcode(drm_radeon_private_t *dev_priv)
 
 	err = 0;
 
-	dev_priv->me_fw = firmware_get(fw_name);
+	drm_dev = container_of((void *)dev_priv, struct drm_device, dev_private);
+	dev_priv->me_fw = drm_firmware_get(fw_name, drm_dev->dev);
 	if (dev_priv->me_fw == NULL) {
 		err = -ENOENT;
 		DRM_ERROR("radeon_cp: Failed to load firmware \"%s\"\n",

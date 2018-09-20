@@ -32,6 +32,7 @@ __FBSDID("$FreeBSD$");
 #include "sid.h"
 #include "atom.h"
 #include "si_blit_shaders.h"
+#include "firmware.h"
 
 #define SI_PFP_UCODE_SIZE 2144
 #define SI_PM4_UCODE_SIZE 2144
@@ -325,7 +326,7 @@ static int si_init_microcode(struct radeon_device *rdev)
 	err = 0;
 
 	snprintf(fw_name, sizeof(fw_name), "radeonkmsfw_%s_pfp", chip_name);
-	rdev->pfp_fw = firmware_get(fw_name);
+	rdev->pfp_fw = drm_firmware_get(fw_name, rdev->dev);
 	if (rdev->pfp_fw == NULL) {
 		err = -ENOENT;
 		goto out;
@@ -339,7 +340,7 @@ static int si_init_microcode(struct radeon_device *rdev)
 	}
 
 	snprintf(fw_name, sizeof(fw_name), "radeonkmsfw_%s_me", chip_name);
-	rdev->me_fw = firmware_get(fw_name);
+	rdev->me_fw = drm_firmware_get(fw_name, rdev->dev);
 	if (rdev->me_fw == NULL) {
 		err = -ENOENT;
 		goto out;
@@ -352,7 +353,7 @@ static int si_init_microcode(struct radeon_device *rdev)
 	}
 
 	snprintf(fw_name, sizeof(fw_name), "radeonkmsfw_%s_ce", chip_name);
-	rdev->ce_fw = firmware_get(fw_name);
+	rdev->ce_fw = drm_firmware_get(fw_name, rdev->dev);
 	if (rdev->ce_fw == NULL) {
 		err = -ENOENT;
 		goto out;
@@ -365,7 +366,7 @@ static int si_init_microcode(struct radeon_device *rdev)
 	}
 
 	snprintf(fw_name, sizeof(fw_name), "radeonkmsfw_%s_rlc", rlc_chip_name);
-	rdev->rlc_fw = firmware_get(fw_name);
+	rdev->rlc_fw = drm_firmware_get(fw_name, rdev->dev);
 	if (rdev->rlc_fw == NULL) {
 		err = -ENOENT;
 		goto out;
@@ -378,7 +379,7 @@ static int si_init_microcode(struct radeon_device *rdev)
 	}
 
 	snprintf(fw_name, sizeof(fw_name), "radeonkmsfw_%s_mc", chip_name);
-	rdev->mc_fw = firmware_get(fw_name);
+	rdev->mc_fw = drm_firmware_get(fw_name, rdev->dev);
 	if (rdev->mc_fw == NULL) {
 		err = -ENOENT;
 		goto out;
