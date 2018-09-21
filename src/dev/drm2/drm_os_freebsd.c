@@ -394,8 +394,8 @@ drm_clflush_virt_range(char *addr, unsigned long length)
 {
 
 #if defined(__i386__) || defined(__amd64__)
-	pmap_force_invalidate_cache_range((vm_offset_t)addr,
-	    (vm_offset_t)addr + length);
+	pmap_invalidate_cache_range((vm_offset_t)addr,
+	    (vm_offset_t)addr + length, TRUE);
 #else
 	DRM_ERROR("drm_clflush_virt_range not implemented on this architecture");
 #endif
