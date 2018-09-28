@@ -2066,7 +2066,7 @@ int r600_init_microcode(struct radeon_device *rdev)
 	DRM_INFO("Loading %s Microcode\n", chip_name);
 	err = 0;
 
-	snprintf(fw_name, sizeof(fw_name), "radeonkmsfw_%s_pfp", chip_name);
+	snprintf(fw_name, sizeof(fw_name), "radeon/%s_pfp.bin", chip_name);
 	rdev->pfp_fw = firmware_get(fw_name);
 	if (rdev->pfp_fw == NULL) {
 		err = -ENOENT;
@@ -2080,7 +2080,7 @@ int r600_init_microcode(struct radeon_device *rdev)
 		goto out;
 	}
 
-	snprintf(fw_name, sizeof(fw_name), "radeonkmsfw_%s_me", chip_name);
+	snprintf(fw_name, sizeof(fw_name), "radeon/%s_me.bin", chip_name);
 	rdev->me_fw = firmware_get(fw_name);
 	if (rdev->me_fw == NULL) {
 		err = -ENOENT;
@@ -2093,7 +2093,7 @@ int r600_init_microcode(struct radeon_device *rdev)
 		err = -EINVAL;
 	}
 
-	snprintf(fw_name, sizeof(fw_name), "radeonkmsfw_%s_rlc", rlc_chip_name);
+	snprintf(fw_name, sizeof(fw_name), "radeon/%s_rlc.bin", rlc_chip_name);
 	rdev->rlc_fw = firmware_get(fw_name);
 	if (rdev->rlc_fw == NULL) {
 		err = -ENOENT;
