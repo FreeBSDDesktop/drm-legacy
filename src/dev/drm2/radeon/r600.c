@@ -37,6 +37,7 @@ __FBSDID("$FreeBSD$");
 #include "r600d.h"
 #include "atom.h"
 #include "avivod.h"
+#include "firmware.h"
 
 #define PFP_UCODE_SIZE 576
 #define PM4_UCODE_SIZE 1792
@@ -2067,7 +2068,7 @@ int r600_init_microcode(struct radeon_device *rdev)
 	err = 0;
 
 	snprintf(fw_name, sizeof(fw_name), "radeon/%s_pfp.bin", chip_name);
-	rdev->pfp_fw = firmware_get(fw_name);
+	rdev->pfp_fw = drm_firmware_get(fw_name, rdev->dev);
 	if (rdev->pfp_fw == NULL) {
 		err = -ENOENT;
 		goto out;
@@ -2081,7 +2082,7 @@ int r600_init_microcode(struct radeon_device *rdev)
 	}
 
 	snprintf(fw_name, sizeof(fw_name), "radeon/%s_me.bin", chip_name);
-	rdev->me_fw = firmware_get(fw_name);
+	rdev->me_fw = drm_firmware_get(fw_name, rdev->dev);
 	if (rdev->me_fw == NULL) {
 		err = -ENOENT;
 		goto out;
@@ -2094,7 +2095,7 @@ int r600_init_microcode(struct radeon_device *rdev)
 	}
 
 	snprintf(fw_name, sizeof(fw_name), "radeon/%s_rlc.bin", rlc_chip_name);
-	rdev->rlc_fw = firmware_get(fw_name);
+	rdev->rlc_fw = drm_firmware_get(fw_name, rdev->dev);
 	if (rdev->rlc_fw == NULL) {
 		err = -ENOENT;
 		goto out;

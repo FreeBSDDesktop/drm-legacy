@@ -33,6 +33,7 @@ __FBSDID("$FreeBSD$");
 #include "atom.h"
 #include "ni_reg.h"
 #include "cayman_blit_shaders.h"
+#include "firmware.h"
 
 #ifdef FREEBSD_WIP /* FreeBSD: to please GCC 4.2. */
 extern void evergreen_mc_stop(struct radeon_device *rdev, struct evergreen_mc_save *save);
@@ -347,7 +348,7 @@ int ni_init_microcode(struct radeon_device *rdev)
 	err = 0;
 
 	snprintf(fw_name, sizeof(fw_name), "radeon/%s_pfp.bin", chip_name);
-	rdev->pfp_fw = firmware_get(fw_name);
+	rdev->pfp_fw = drm_firmware_get(fw_name, rdev->dev);
 	if (rdev->pfp_fw == NULL) {
 		err = -ENOENT;
 		goto out;
@@ -361,7 +362,7 @@ int ni_init_microcode(struct radeon_device *rdev)
 	}
 
 	snprintf(fw_name, sizeof(fw_name), "radeon/%s_me.bin", chip_name);
-	rdev->me_fw = firmware_get(fw_name);
+	rdev->me_fw = drm_firmware_get(fw_name, rdev->dev);
 	if (rdev->me_fw == NULL) {
 		err = -ENOENT;
 		goto out;
@@ -374,7 +375,7 @@ int ni_init_microcode(struct radeon_device *rdev)
 	}
 
 	snprintf(fw_name, sizeof(fw_name), "radeon/%s_rlc.bin", rlc_chip_name);
-	rdev->rlc_fw = firmware_get(fw_name);
+	rdev->rlc_fw = drm_firmware_get(fw_name, rdev->dev);
 	if (rdev->rlc_fw == NULL) {
 		err = -ENOENT;
 		goto out;
@@ -389,7 +390,7 @@ int ni_init_microcode(struct radeon_device *rdev)
 	/* no MC ucode on TN */
 	if (!(rdev->flags & RADEON_IS_IGP)) {
 		snprintf(fw_name, sizeof(fw_name), "radeon/%s_mc.bin", chip_name);
-		rdev->mc_fw = firmware_get(fw_name);
+		rdev->mc_fw = drm_firmware_get(fw_name, rdev->dev);
 		if (rdev->mc_fw == NULL) {
 			err = -ENOENT;
 			goto out;

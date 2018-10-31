@@ -38,6 +38,7 @@ __FBSDID("$FreeBSD$");
 #include <dev/drm2/radeon/radeon_drm.h>
 #include "radeon_drv.h"
 #include "r600_cp.h"
+#include "firmware.h"
 
 #define PFP_UCODE_SIZE 576
 #define PM4_UCODE_SIZE 1792
@@ -360,7 +361,7 @@ static int r600_cp_init_microcode(drm_radeon_private_t *dev_priv)
 	err = 0;
 
 	snprintf(fw_name, sizeof(fw_name), "radeon/%s_pfp.bin", chip_name);
-	dev_priv->pfp_fw = firmware_get(fw_name);
+	dev_priv->pfp_fw = drm_firmware_get(fw_name, NULL);
 	if (dev_priv->pfp_fw == NULL) {
 		err = -ENOENT;
 		goto out;
@@ -374,7 +375,7 @@ static int r600_cp_init_microcode(drm_radeon_private_t *dev_priv)
 	}
 
 	snprintf(fw_name, sizeof(fw_name), "radeon/%s_me.bin", chip_name);
-	dev_priv->me_fw = firmware_get(fw_name);
+	dev_priv->me_fw = drm_firmware_get(fw_name, NULL);
 	if (dev_priv->me_fw == NULL) {
 		err = -ENOENT;
 		goto out;

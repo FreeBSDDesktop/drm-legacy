@@ -39,6 +39,7 @@ __FBSDID("$FreeBSD$");
 #include "rv200d.h"
 #include "rv250d.h"
 #include "atom.h"
+#include "firmware.h"
 
 #include "r100_reg_safe.h"
 #include "rn50_reg_safe.h"
@@ -1036,7 +1037,7 @@ static int r100_cp_init_microcode(struct radeon_device *rdev)
 	}
 
 	err = 0;
-	rdev->me_fw = firmware_get(fw_name);
+	rdev->me_fw = drm_firmware_get(fw_name, rdev->dev);
 	if (rdev->me_fw == NULL) {
 		DRM_ERROR("radeon_cp: Failed to load firmware \"%s\"\n",
 		       fw_name);
