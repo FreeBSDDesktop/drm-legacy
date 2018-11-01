@@ -328,10 +328,12 @@ static void r600_vm_init(struct drm_device *dev)
 
 static int r600_cp_init_microcode(drm_radeon_private_t *dev_priv)
 {
+	struct drm_device *drm_dev;
 	const char *chip_name;
 	size_t pfp_req_size, me_req_size;
 	char fw_name[30];
 	int err;
+
 
 	switch (dev_priv->flags & RADEON_FAMILY_MASK) {
 	case CHIP_R600:  chip_name = "R600";  break;
@@ -360,8 +362,9 @@ static int r600_cp_init_microcode(drm_radeon_private_t *dev_priv)
 	DRM_INFO("Loading %s CP Microcode\n", chip_name);
 	err = 0;
 
+	drm_dev = container_of((void *)dev_priv, struct drm_device, dev_private);
 	snprintf(fw_name, sizeof(fw_name), "radeon/%s_pfp.bin", chip_name);
-	dev_priv->pfp_fw = drm_firmware_get(fw_name, NULL);
+	dev_priv->pfp_fw = drm_firmware_get(fw_name, drm_dev->dev);
 	if (dev_priv->pfp_fw == NULL) {
 		err = -ENOENT;
 		goto out;
@@ -375,7 +378,7 @@ static int r600_cp_init_microcode(drm_radeon_private_t *dev_priv)
 	}
 
 	snprintf(fw_name, sizeof(fw_name), "radeon/%s_me.bin", chip_name);
-	dev_priv->me_fw = drm_firmware_get(fw_name, NULL);
+	dev_priv->me_fw = drm_firmware_get(fw_name, drm_dev->dev);
 	if (dev_priv->me_fw == NULL) {
 		err = -ENOENT;
 		goto out;
