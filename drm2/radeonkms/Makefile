@@ -27,7 +27,6 @@ SRCS	+=								\
 	radeon_clocks.c							\
 	radeon_combios.c						\
 	radeon_connectors.c						\
-	radeon_cp.c							\
 	radeon_cs.c							\
 	radeon_cursor.c							\
 	radeon_device.c							\
@@ -39,7 +38,6 @@ SRCS	+=								\
 	radeon_gart.c							\
 	radeon_gem.c							\
 	radeon_i2c.c							\
-	${radeon_ioc32}							\
 	radeon_irq.c							\
 	radeon_irq_kms.c						\
 	radeon_kms.c							\
@@ -52,7 +50,6 @@ SRCS	+=								\
 	radeon_ring.c							\
 	radeon_sa.c							\
 	radeon_semaphore.c						\
-	radeon_state.c							\
 	radeon_test.c							\
 	radeon_ttm.c							\
 	atom.c								\
@@ -63,7 +60,6 @@ SRCS	+=								\
 	r100.c								\
 	r200.c								\
 	r300.c								\
-	r300_cmdbuf.c							\
 	r420.c								\
 	rs400.c								\
 	rs600.c								\
@@ -72,10 +68,8 @@ SRCS	+=								\
 	r520.c								\
 	r600.c								\
 	r600_audio.c							\
-	r600_blit.c							\
 	r600_blit_kms.c							\
 	r600_blit_shaders.c						\
-	r600_cp.c							\
 	r600_cs.c							\
 	r600_hdmi.c							\
 	rv770.c								\
@@ -95,10 +89,6 @@ SRCS	+=								\
 .if ${MACHINE_CPUARCH} == "amd64" || ${MACHINE_CPUARCH} == "i386"
 radeon_acpi=		radeon_acpi.c
 #radeon_atpx_handler=	radeon_atpx_handler.c
-.endif
-
-.if ${MACHINE_CPUARCH} == "amd64" || ${MACHINE_ARCH} == "powerpc64"
-radeon_ioc32=		radeon_ioc32.c
 .endif
 
 #radeon_prime.c
@@ -122,7 +112,5 @@ CFLAGS+= -I${.CURDIR:H}/../src/
 
 CFLAGS+=			-I${SRCTOP}/../src/dev/drm2/radeon
 
-CWARNFLAGS.radeon_cp.c=		-Wno-unused-value
-CWARNFLAGS.r600_cp.c=		-Wno-unused-value
 CWARNFLAGS+=			${CWARNFLAGS.${.IMPSRC:T}}
 CWARNFLAGS+=	${NO_WUNUSED_BUT_SET_VARIABLE}
