@@ -1498,11 +1498,11 @@ int ttm_bo_global_init(struct drm_global_reference *ref)
 	tries = 0;
 retry:
 	glob->dummy_read_page = vm_page_alloc_contig(NULL, 0, req,
-	    1, 0, VM_MAX_ADDRESS, PAGE_SIZE, 0, VM_MEMATTR_UNCACHEABLE);
+	    1, 0, BUS_SPACE_MAXADDR, PAGE_SIZE, 0, VM_MEMATTR_UNCACHEABLE);
 
 	if (unlikely(glob->dummy_read_page == NULL)) {
 		if (tries < 1 && vm_page_reclaim_contig(req, 1,
-		    0, VM_MAX_ADDRESS, PAGE_SIZE, 0)) {
+		    0, BUS_SPACE_MAXADDR, PAGE_SIZE, 0)) {
 			tries++;
 			goto retry;
 		}
