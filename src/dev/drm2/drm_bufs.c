@@ -63,7 +63,11 @@ static int drm_alloc_resource(struct drm_device *dev, int resource)
 
 	rid = PCIR_BAR(resource);
 	res = bus_alloc_resource_any(dev->dev, SYS_RES_MEMORY, &rid,
+#ifdef __powerpc64__
+	    RF_SHAREABLE | RF_ACTIVE);
+#else
 	    RF_SHAREABLE);
+#endif
 	if (res == NULL) {
 		DRM_ERROR("Couldn't find resource 0x%x\n", resource);
 		return 1;
@@ -87,7 +91,11 @@ unsigned long drm_get_resource_start(struct drm_device *dev,
 	if (drm_alloc_resource(dev, resource) != 0)
 		return 0;
 
+#ifdef __powerpc64__
+	start = pmap_kextract(rman_get_bushandle(dev->pcir[resource]));
+#else
 	start = rman_get_start(dev->pcir[resource]);
+#endif
 
 	mtx_unlock(&dev->pcir_lock);
 
