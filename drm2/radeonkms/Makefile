@@ -110,7 +110,7 @@ SRCS	+=								\
 
 CFLAGS+= -I${.CURDIR:H}/../src/
 
-CFLAGS+=			-I${SRCTOP}/../src/dev/drm2/radeon
+CFLAGS+=			-I${.CURDIR:H:H}/../src/dev/drm2/radeon
 
 CWARNFLAGS+=			${CWARNFLAGS.${.IMPSRC:T}}
 CWARNFLAGS+=	${NO_WUNUSED_BUT_SET_VARIABLE}
