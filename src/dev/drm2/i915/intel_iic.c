@@ -546,6 +546,7 @@ intel_iicbb_attach(device_t idev)
 	struct intel_iic_softc *sc;
 	struct drm_device *dev;
 	struct drm_i915_private *dev_priv;
+	device_t bdev;
 	int pin, port;
 
 	sc = device_get_softc(idev);
@@ -567,7 +568,9 @@ intel_iicbb_attach(device_t idev)
 		return (ENXIO);
 	device_quiet(sc->iic_dev);
 	bus_generic_attach(idev);
-	iicbus_set_nostop(idev, true);
+	bdev = device_find_child(sc->iic_dev, "iicbus", -1);
+	if (bdev != NULL)
+		iicbus_set_nostop(bdev, true);
 
 	return (0);
 }
