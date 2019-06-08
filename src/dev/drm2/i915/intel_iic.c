@@ -747,7 +747,7 @@ int intel_setup_gmbus(struct drm_device *dev)
 
 		/* bbbus */
 		iic_dev = device_find_child(bus->bbbus_bridge,
-		    "iicbb", -1);
+		    "iicbb_nostop", -1);
 		if (iic_dev == NULL) {
 			DRM_ERROR("bbbus bridge doesn't have iicbb child\n");
 			goto err;
