@@ -222,8 +222,10 @@ static int
 via_lock_all_dma_pages(drm_via_sg_info_t *vsg,  drm_via_dmablit_t *xfer)
 {
 	unsigned long first_pfn = VIA_PFN(xfer->mem_addr);
+#if __FreeBSD_version < 1300035
 	vm_page_t m;
 	int i;
+#endif
 
 	vsg->num_pages = VIA_PFN(xfer->mem_addr +
 	    (xfer->num_lines * xfer->mem_stride -1)) - first_pfn + 1;
@@ -239,6 +241,7 @@ via_lock_all_dma_pages(drm_via_sg_info_t *vsg,  drm_via_dmablit_t *xfer)
 	    VM_PROT_READ | VM_PROT_WRITE, vsg->pages, vsg->num_pages) < 0)
 		return -EACCES;
 
+#if __FreeBSD_version < 1300035
 	for (i = 0; i < vsg->num_pages; i++) {
 		m = vsg->pages[i];
 		vm_page_lock(m);
@@ -246,6 +249,7 @@ via_lock_all_dma_pages(drm_via_sg_info_t *vsg,  drm_via_dmablit_t *xfer)
 		vm_page_unhold(m);
 		vm_page_unlock(m);
 	}
+#endif
 	vsg->state = dr_via_pages_locked;
 
 	DRM_DEBUG("DMA pages locked\n");
