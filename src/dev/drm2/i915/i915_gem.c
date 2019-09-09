@@ -1891,10 +1891,14 @@ i915_gem_object_put_pages_range_locked(struct drm_i915_gem_object *obj,
 	    page = vm_page_next(page), i++) {
 		KASSERT(page->pindex == i, ("pindex %jx %jx",
 		    (uintmax_t)page->pindex, (uintmax_t)i));
+#if __FreeBSD_version < 1300047
 		vm_page_lock(page);
 		if (vm_page_unwire(page, PQ_INACTIVE))
 			atomic_add_long(&i915_gem_wired_pages_cnt, -1);
 		vm_page_unlock(page);
+#else
+		vm_page_unwire(page, PQ_INACTIVE);
+#endif
 	}
 }
 
@@ -1962,10 +1966,14 @@ i915_gem_object_put_pages_gtt(struct drm_i915_gem_object *obj)
 		if (obj->madv == I915_MADV_WILLNEED)
 			vm_page_reference(page);
 
+#if __FreeBSD_version < 1300047
 		vm_page_lock(page);
 		vm_page_unwire(obj->pages[i], PQ_ACTIVE);
 		vm_page_unlock(page);
 		atomic_add_long(&i915_gem_wired_pages_cnt, -1);
+#else
+		vm_page_unwire(obj->pages[i], PQ_ACTIVE);
+#endif
 	}
 	VM_OBJECT_WUNLOCK(obj->base.vm_obj);
 	obj->dirty = 0;
@@ -4581,11 +4589,15 @@ void i915_gem_detach_phys_object(struct drm_device *dev,
 
 		VM_OBJECT_WLOCK(obj->base.vm_obj);
 		vm_page_reference(page);
-		vm_page_lock(page);
 		vm_page_dirty(page);
+#if __FreeBSD_version < 1300047
+		vm_page_lock(page);
 		vm_page_unwire(page, PQ_INACTIVE);
 		vm_page_unlock(page);
 		atomic_add_long(&i915_gem_wired_pages_cnt, -1);
+#else
+		vm_page_unwire(page, PQ_INACTIVE);
+#endif
 	}
 	VM_OBJECT_WUNLOCK(obj->base.vm_obj);
 	i915_gem_chipset_flush(dev);
@@ -4650,10 +4662,14 @@ i915_gem_attach_phys_object(struct drm_device *dev,
 		VM_OBJECT_WLOCK(obj->base.vm_obj);
 
 		vm_page_reference(page);
+#if __FreeBSD_version < 1300047
 		vm_page_lock(page);
 		vm_page_unwire(page, PQ_INACTIVE);
 		vm_page_unlock(page);
 		atomic_add_long(&i915_gem_wired_pages_cnt, -1);
+#else
+		vm_page_unwire(page, PQ_INACTIVE);
+#endif
 	}
 	VM_OBJECT_WUNLOCK(obj->base.vm_obj);
 
@@ -4762,6 +4778,8 @@ i915_gem_wire_page(vm_object_t object, vm_pindex_t pindex, bool *fresh)
 		vm_page_xunbusy(page);
 	} else if (fresh != NULL)
 		*fresh = false;
+#if __FreeBSD_version < 1300047
 	atomic_add_long(&i915_gem_wired_pages_cnt, 1);
+#endif
 	return (page);
 }
