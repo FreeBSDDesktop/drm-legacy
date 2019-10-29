@@ -382,8 +382,13 @@ retry:
 		m = vm_page_lookup(vm_obj, i);
 		if (m == NULL)
 			continue;
+#if __FreeBSD_version >= 1300052
+		if (!vm_page_busy_acquire(m, VM_ALLOC_WAITFAIL))
+			goto retry;
+#else
 		if (vm_page_sleep_if_busy(m, "ttm_unm"))
 			goto retry;
+#endif
 		cdev_pager_free_page(vm_obj, m);
 	}
 	VM_OBJECT_WUNLOCK(vm_obj);
