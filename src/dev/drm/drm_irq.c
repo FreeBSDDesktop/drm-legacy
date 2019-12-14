@@ -193,7 +193,7 @@ int drm_irq_install(struct drm_device *dev)
 			}
 		}
 		callout_reset(&dev->vblank_disable_timer, 5 * DRM_HZ,
-		    (timeout_t *)vblank_disable_fn, (void *)dev);
+		    (void *)vblank_disable_fn, (void *)dev);
 		DRM_SPINUNLOCK(&dev->vbl_lock);
 	}
 
@@ -337,7 +337,7 @@ void drm_vblank_put(struct drm_device *dev, int crtc)
 	/* Last user schedules interrupt disable */
 	if (--dev->vblank[crtc].refcount == 0)
 	    callout_reset(&dev->vblank_disable_timer, 5 * DRM_HZ,
-		(timeout_t *)vblank_disable_fn, (void *)dev);
+		(void *)vblank_disable_fn, (void *)dev);
 }
 
 int drm_modeset_ctl(struct drm_device *dev, void *data,

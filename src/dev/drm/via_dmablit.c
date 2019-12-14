@@ -376,7 +376,7 @@ via_dmablit_handler(struct drm_device *dev, int engine, int from_irq)
 
 			if (!callout_pending(&blitq->poll_timer))
 				callout_reset(&blitq->poll_timer,
-				    1, (timeout_t *)via_dmablit_timer,
+				    1, (void *)via_dmablit_timer,
 				    (void *)blitq);
 		} else {
 			if (callout_pending(&blitq->poll_timer)) {
