@@ -1,6 +1,9 @@
 # drm-legacy
 
-FreeBSD port `graphics/drm-legacy`.  
+This was previosuly part of the FreeBSD port `graphics/drm-legacy`.
+This port has been deprecated, and you should use `graphics/drm-kmod` instead.
+
+This repository is no longer in use and has been archived.
   
 Contain drm and drm2 drivers that were previously located at  
 `sys/dev/drm`  
